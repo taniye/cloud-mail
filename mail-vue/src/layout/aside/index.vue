@@ -1,10 +1,7 @@
 <template>
   <el-scrollbar class="scroll">
     <div>
-      <div class="title" :class="{ 'title-display': titleUsesDisplayFont }">
-        <img class="logo" :src="logoUrl" alt="" />
-        <div>{{settingStore.settings.title}}</div>
-      </div>
+
       <button v-perm="'email:send'" class="compose-bar" type="button" @click="openCompose">
         <Icon icon="material-symbols:edit-outline-sharp" width="22" height="22" />
         <span>{{ $t('compose') }}</span>
@@ -35,34 +32,22 @@
           <Icon icon="fluent:settings-48-regular" width="20" height="20" />
           <span class="menu-name" style="margin-left: 16px">{{$t('settings')}}</span>
         </el-menu-item>
-        <div class="manage-title" v-perm="['all-email:query','user:query','role:query','setting:query','analysis:query','reg-key:query']">
+        <div class="manage-title" v-perm="['user:query','role:query','setting:query']">
           <div>{{$t('manage')}}</div>
         </div>
-        <el-menu-item @click="router.push({name: 'analysis'})" index="analysis" v-perm="'analysis:query'"
-                      :class="route.meta.name === 'analysis' ? 'choose-item' : ''">
-          <Icon icon="fluent:data-pie-20-regular" width="24" height="24" />
-          <span class="menu-name" style="margin-left: 13px">{{$t('analytics')}}</span>
-        </el-menu-item>
+
         <el-menu-item @click="router.push({name: 'user'})" index="setting" v-perm="'user:query'"
                       :class="route.meta.name === 'user' ? 'choose-item' : ''">
           <Icon icon="si:user-alt-2-line" width="20" height="20" />
           <span class="menu-name" style="margin-left: 16px">{{$t('allUsers')}}</span>
         </el-menu-item>
-        <el-menu-item @click="router.push({name: 'all-email'})" index="all-email" v-perm="'all-email:query'"
-                      :class="route.meta.name === 'all-email' ? 'choose-item' : ''">
-          <Icon icon="fluent:mail-list-28-regular" width="22" height="22" />
-          <span class="menu-name" style="margin-left: 15px">{{$t('allMail')}}</span>
-        </el-menu-item>
+
         <el-menu-item @click="router.push({name: 'role'})" index="setting" v-perm="'role:query'"
                       :class="route.meta.name === 'role' ? 'choose-item' : ''">
           <Icon icon="fluent:lock-closed-16-regular" width="22" height="22" />
           <span class="menu-name" style="margin-left: 15px">{{$t('permissions')}}</span>
         </el-menu-item>
-        <el-menu-item @click="router.push({name: 'reg-key'})" index="reg-key" v-perm="'reg-key:query'"
-                      :class="route.meta.name === 'reg-key' ? 'choose-item' : ''">
-          <Icon icon="fluent:fingerprint-20-filled" width="22" height="22" />
-          <span class="menu-name" style="margin-left: 15px">{{$t('inviteCode')}}</span>
-        </el-menu-item>
+
         <el-menu-item @click="router.push({name: 'sys-setting'})" index="sys-setting" v-perm="'setting:query'"
                       :class="route.meta.name === 'sys-setting' ? 'choose-item' : ''">
           <Icon icon="eos-icons:system-ok-outlined" width="18" height="18" style="margin-left: 2px" />
@@ -75,7 +60,6 @@
 
 <script setup>
 import router from "@/router/index.js";
-import {computed} from "vue";
 import { useRoute } from "vue-router";
 import {Icon} from "@iconify/vue";
 import {useSettingStore} from "@/store/setting.js";
@@ -84,8 +68,6 @@ import {useUiStore} from "@/store/ui.js";
 const settingStore = useSettingStore();
 const uiStore = useUiStore();
 const route = useRoute();
-const logoUrl = `${import.meta.env.BASE_URL}mail.png`
-const titleUsesDisplayFont = computed(() => !/\p{Script=Han}/u.test(settingStore.settings.title || ''))
 
 function openCompose() {
   uiStore.writerRef.open()
@@ -143,7 +125,8 @@ function openCompose() {
 }
 
 .title.title-display {
-  font-family: "BAHAMASB", Inter, "Helvetica Neue", Helvetica, sans-serif;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  letter-spacing: -0.8px;
   font-size: 22px;
   font-weight: normal;
 }

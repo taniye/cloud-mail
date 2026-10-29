@@ -8,7 +8,7 @@ import {websiteConfig} from "@/request/setting.js";
 import i18n from "@/i18n/index.js";
 
 export async function init() {
-    document.title = '\u200B'
+    document.title = 'RelayDot'
 
     const settingStore = useSettingStore();
     const userStore = useUserStore();

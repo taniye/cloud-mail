@@ -5,6 +5,8 @@ export const useSettingStore = defineStore('setting', {
         domainList: [],
         settings: {
             r2Domain: '',
+            title: 'RelayDot',
+            register: 1,
             loginOpacity: 1.00,
         },
         lang: '',

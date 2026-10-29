@@ -10,38 +10,9 @@
           <div class="settings-card">
             <div class="card-title">{{ $t('websiteSetting') }}</div>
             <div class="card-content">
-              <div class="setting-item">
-                <div><span>{{ $t('websiteReg') }}</span></div>
-                <div>
-                  <el-switch @change="change" :before-change="beforeChange" :active-value="0" :inactive-value="1"
-                             v-model="setting.register"/>
-                </div>
-              </div>
-              <div class="setting-item">
-                <div><span>{{ $t('loginDomain') }}</span></div>
-                <div>
-                  <el-switch @change="change" :before-change="beforeChange" :active-value="1" :inactive-value="0"
-                             v-model="setting.loginDomain"/>
-                </div>
-              </div>
-              <div class="setting-item">
-                <div><span>{{ $t('regKey') }}</span></div>
-                <div>
-                  <el-select
-                      @change="change"
-                      :style="`width: ${ locale === 'en' ?  100 : 80 }px;`"
-                      v-model="setting.regKey"
-                      placeholder="Select"
-                  >
-                    <el-option
-                        v-for="item in regKeyOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                    />
-                  </el-select>
-                </div>
-              </div>
+
+
+
               <div class="setting-item">
                 <div><span>{{ $t('addAccount') }}</span></div>
                 <div>
@@ -87,53 +58,7 @@
           </div>
 
           <!-- Personalization Settings Card -->
-          <div class="settings-card">
-            <div class="card-title">{{ $t('customization') }}</div>
-            <div class="card-content">
-              <div class="setting-item">
-                <div class="title-item"><span>{{ $t('websiteTitle') }}</span></div>
-                <div class="email-title">
-                  <span>{{ setting.title }}</span>
-                  <el-button class="opt-button" size="small" type="primary" @click="editTitleShow = true">
-                    <Icon icon="lsicon:edit-outline" width="16" height="16"/>
-                  </el-button>
-                </div>
-              </div>
-              <div class="setting-item">
-                <div class="title-item"><span>{{ $t('loginBoxOpacity') }}</span></div>
-                <div>
-                  <el-input-number size="small" v-model="loginOpacity" @change="opacityChange" :precision="2"
-                                   :step="0.01" :max="1" :min="0"/>
-                </div>
-              </div>
-              <div class="setting-item personalized">
-                <div><span>{{ $t('loginBackground') }}</span></div>
-                <div>
-                  <el-image
-                      class="background"
-                      :src="cvtR2Url(setting.background)"
-                      :preview-src-list="[cvtR2Url(setting.background)]"
-                      show-progress
-                      fit="cover"
-                  >
-                    <template #error>
-                      <div class="error-image">
-                        <Icon icon="ph:image" width="24" height="24"/>
-                      </div>
-                    </template>
-                  </el-image>
-                  <div class="background-btn">
-                    <el-button class="opt-button" size="small" type="primary" @click="openSetBackground">
-                      <Icon icon="lsicon:edit-outline" width="16" height="16"/>
-                    </el-button>
-                    <el-button class="opt-button" size="small" type="primary" @click="delBackground">
-                      <Icon icon="material-symbols:delete-outline-rounded" width="16" height="16"/>
-                    </el-button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
 
           <!-- Email Sending Settings Card -->
           <div class="settings-card">
@@ -188,22 +113,7 @@
                              v-model="setting.noRecipient"/>
                 </div>
               </div>
-              <div class="setting-item">
-                <div><span>{{ setting.hasCfEmail ? $t('cloudflareEmailSending') : $t('resendToken') }}</span></div>
-                <div v-if="setting.hasCfEmail">
-                  <span>{{ $t('enabled') }}</span>
-                </div>
-                <div v-else>
-                  <el-button class="opt-button" style="margin-top: 0" @click="openResendList" size="small"
-                             type="primary">
-                    <Icon icon="ic:round-list" width="18" height="18"/>
-                  </el-button>
-                  <el-button class="opt-button" style="margin-top: 0" @click="openResendForm" size="small"
-                             type="primary">
-                    <Icon icon="material-symbols:add-rounded" width="16" height="16"/>
-                  </el-button>
-                </div>
-              </div>
+
               <div class="setting-item">
                 <div><span>{{ $t('blackList') }}</span></div>
                 <div>
@@ -231,47 +141,7 @@
             </div>
           </div>
 
-          <div class="settings-card">
-            <div class="card-title">{{ $t('emailPush') }}</div>
-            <div class="card-content">
-              <div class="setting-item">
-                <div><span>{{ $t('tgBot') }}</span></div>
-                <div class="forward">
-                  <span>{{ setting.tgBotStatus === 0 ? $t('enabled') : $t('disabled') }}</span>
-                  <el-button class="opt-button" size="small" type="primary" @click="openTgSetting">
-                    <Icon icon="fluent:settings-48-regular" width="18" height="18"/>
-                  </el-button>
-                </div>
-              </div>
-              <div class="setting-item">
-                <div><span>{{ $t('otherEmail') }}</span></div>
-                <div class="forward">
-                  <span>{{ setting.forwardStatus === 0 ? $t('enabled') : $t('disabled') }}</span>
-                  <el-button class="opt-button" size="small" type="primary" @click="openThirdEmailSetting">
-                    <Icon icon="fluent:settings-48-regular" width="18" height="18"/>
-                  </el-button>
-                </div>
-              </div>
-              <div class="setting-item">
-                <div><span>{{ $t('webhook') }}</span></div>
-                <div class="forward">
-                  <span>{{ setting.webhookStatus === 0 ? $t('enabled') : $t('disabled') }}</span>
-                  <el-button class="opt-button" size="small" type="primary" @click="openWebhookSetting">
-                    <Icon icon="fluent:settings-48-regular" width="18" height="18"/>
-                  </el-button>
-                </div>
-              </div>
-              <div class="setting-item">
-                <div><span>{{ $t('forwardingRules') }}</span></div>
-                <div class="forward">
-                  <span>{{ setting.ruleType === 0 ? $t('forwardAll') : $t('rules') }}</span>
-                  <el-button class="opt-button" size="small" type="primary" @click="openForwardRules">
-                    <Icon icon="fluent:settings-48-regular" width="18" height="18"/>
-                  </el-button>
-                </div>
-              </div>
-            </div>
-          </div>
+
 
           <!-- Object Storage Card -->
           <div class="settings-card">
@@ -301,183 +171,16 @@
           </div>
 
           <!-- Turnstile Verification Card -->
-          <div class="settings-card">
-            <div class="card-title">{{ $t('turnstileSetting') }}</div>
-            <div class="card-content">
-              <div class="setting-item">
-                <div><span>{{ $t('signUpVerification') }}</span></div>
-                <div>
-                  <el-button class="opt-button" size="small" type="primary" @click="openRegVerifyCount">
-                    <Icon icon="fluent:settings-48-regular" width="18" height="18"/>
-                  </el-button>
-                  <el-select
-                      @change="change"
-                      :style="`width: ${ locale === 'en' ? 100 : 80 }px;`"
-                      v-model="setting.registerVerify"
-                      placeholder="Select"
-                      class="bot-verify-select"
-                  >
-                    <el-option key="1" :value="0" :label="$t('enable')"/>
-                    <el-option key="1" :value="1" :label="$t('disable')"/>
-                    <el-option key="1" :value="2" :label="$t('rulesVerify')"/>
-                  </el-select>
-                </div>
-              </div>
-              <div class="setting-item">
-                <div><span>{{ $t('addEmailVerification') }}</span></div>
-                <div>
-                  <el-button class="opt-button" size="small" type="primary" @click="openAddVerifyCount">
-                    <Icon icon="fluent:settings-48-regular" width="18" height="18"/>
-                  </el-button>
-                  <el-select
-                      @change="change"
-                      :style="`width: ${ locale === 'en' ? 100 : 80 }px;`"
-                      v-model="setting.addEmailVerify"
-                      placeholder="Select"
-                      class="bot-verify-select"
-                  >
-                    <el-option key="1" :value="0" :label="$t('enable')"/>
-                    <el-option key="1" :value="1" :label="$t('disable')"/>
-                    <el-option key="1" :value="2" :label="$t('rulesVerify')"/>
-                  </el-select>
-                </div>
-              </div>
-              <div class="setting-item">
-                <div><span>Site key</span></div>
-                <div class="bot-verify">
-                  <span>{{ setting.siteKey }}</span>
-                  <el-button class="opt-button" size="small" type="primary" @click="turnstileShow = true">
-                    <Icon icon="lsicon:edit-outline" width="16" height="16"/>
-                  </el-button>
-                </div>
-              </div>
-              <div class="setting-item">
-                <div><span>Secret key</span></div>
-                <div class="bot-verify">
-                  <span> {{ setting.secretKey }} </span>
-                  <el-button class="opt-button" size="small" type="primary" @click="turnstileShow = true">
-                    <Icon icon="lsicon:edit-outline" width="16" height="16"/>
-                  </el-button>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="settings-card">
-            <div class="card-title">{{ $t('noticeTitle') }}</div>
-            <div class="card-content">
-              <div class="setting-item">
-                <div><span>{{ $t('noticePopup') }}</span></div>
-                <div class="forward">
-                  <span>{{ setting.notice === 0 ? $t('enabled') : $t('disabled') }}</span>
-                  <el-button class="opt-button" size="small" type="primary" @click="openNoticePopupSetting">
-                    <Icon icon="fluent:settings-48-regular" width="18" height="18"/>
-                  </el-button>
-                </div>
-              </div>
-              <div class="setting-item">
-                <div><span>{{ $t('popUp') }}</span></div>
-                <div class="forward">
-                  <el-button class="opt-button" size="small" type="primary" @click="openNoticePopup">
-                    <Icon icon="mynaui:click-solid" width="18" height="18"/>
-                  </el-button>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="settings-card">
-            <div class="card-title">Workers AI</div>
-            <div class="card-content">
-              <div class="setting-item">
-                <div><span>{{ $t('codeRecognition') }}</span></div>
-                <div>
-                  <el-switch @change="changeField('aiCode', $event)" :before-change="beforeChange" :active-value="0" :inactive-value="1"
-                             v-model="setting.aiCode"/>
-                </div>
-              </div>
-              <div class="setting-item">
-                <div><span>{{ $t('codeRecognitionRules') }}</span></div>
-                <div class="forward">
-                  <el-button class="opt-button" size="small" type="primary" @click="openAiCodeFilter">
-                    <Icon icon="fluent:settings-48-regular" width="18" height="18"/>
-                  </el-button>
-                </div>
-              </div>
-            </div>
-          </div>
+
+
+
 
           <!-- OAuth Login Card -->
-          <div class="settings-card">
-            <div class="card-title">{{ $t('oauthLogin') }}</div>
-            <div class="card-content">
-              <div class="setting-item" v-for="p in oauthPlatforms" :key="p.key">
-                <div>
-                  <el-avatar v-if="p.iconType === 'image'" :src="p.icon" :size="22" class="oauth-icon"/>
-                  <Icon v-else :icon="p.icon" width="22" height="22" class="oauth-icon"/>
-                  <span>{{ p.label }}</span>
-                </div>
-                <div class="forward">
-                  <span>{{ setting[p.key + 'Switch'] === 0 ? $t('enabled') : $t('disabled') }}</span>
-                  <el-button class="opt-button" size="small" type="primary" @click="openOauthSetting(p)">
-                    <Icon icon="fluent:settings-48-regular" width="18" height="18"/>
-                  </el-button>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="settings-card about">
-            <div class="card-title">{{ $t('about') }}</div>
-            <div class="card-content">
-              <div class="concerning-item">
-                <span>{{ $t('version') }} :</span>
-                <el-badge is-dot :hidden="!hasUpdate">
-                  <el-button @click="jump('https://github.com/maillab/cloud-mail/releases')">
-                    {{ currentVersion }}
-                    <template #icon>
-                      <Icon icon="qlementine-icons:version-control-16" style="font-size: 20px" color="#1890FF"/>
-                    </template>
-                  </el-button>
-                </el-badge>
-              </div>
-              <div class="concerning-item">
-                <span>{{ $t('community') }} : </span>
-                <div class="community">
-                  <el-button @click="jump('https://github.com/maillab/cloud-mail')">
-                    Github
-                    <template #icon>
-                      <Icon icon="codicon:github-inverted" width="22" height="22"/>
-                    </template>
-                  </el-button>
-                  <el-button @click="jump('https://t.me/cloud_mail_tg')">
-                    Telegram
-                    <template #icon>
-                      <Icon icon="logos:telegram" width="30" height="30"/>
-                    </template>
-                  </el-button>
-                </div>
-              </div>
-              <div class="concerning-item">
-                <span>{{ $t('support') }} : </span>
-                <el-button @click="jump('https://docs.skymail.ink/support.html')">
-                  {{ t('supportDesc') }}
-                  <template #icon>
-                    <Icon color="#79D6B5" icon="simple-icons:buymeacoffee" width="20" height="20"/>
-                  </template>
-                </el-button>
-              </div>
-              <div class="concerning-item">
-                <span>{{ $t('help') }} : </span>
-                <el-button @click="jump('https://docs.skymail.ink')">
-                  {{ t('document') }}
-                  <template #icon>
-                    <Icon color="#79D6B5" icon="fluent-color:document-32" width="18" height="18"/>
-                  </template>
-                </el-button>
-              </div>
-            </div>
-          </div>
+
+
         </div>
       </div>
 
@@ -932,9 +635,6 @@ defineOptions({
   name: 'sys-setting'
 })
 
-const currentVersion = 'v3.4.0'
-const hasUpdate = ref(false)
-let getUpdateErrorCount = 1;
 const {t, locale} = useI18n();
 const firstLoading = ref(true)
 const settingReady = ref(false)
@@ -1077,7 +777,6 @@ const tgMsgTextOption = [{label: t('show'), value: 'show'}, {label: t('hide'), v
 const tgMsgLabelWidth = computed(() => locale.value === 'en' ? '120px' : '100px');
 
 getSettings()
-getUpdate()
 
 function getSettings() {
   settingReady.value = false
@@ -1149,19 +848,6 @@ const resendList = computed(() => {
   return list;
 });
 
-function getUpdate() {
-  if (getUpdateErrorCount > 5 || !getUpdateErrorCount) return
-  axios.get('https://api.github.com/repos/maillab/cloud-mail/releases/latest').then(({data}) => {
-    hasUpdate.value = data.name !== currentVersion
-    getUpdateErrorCount = 0
-  }).catch(e => {
-    getUpdateErrorCount++
-    setTimeout(() => {
-      getUpdate()
-    }, 2000)
-    console.error('检查更新失败：', e)
-  })
-}
 
 function saveAddVerifyCount() {
   if (!addVerifyCount.value) {

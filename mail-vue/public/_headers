@@ -8,3 +8,8 @@
   Cache-Control: public, max-age=604800, immutable
 /mail.png
   Cache-Control: public, max-age=604800
+
+/*
+  X-Robots-Tag: noindex, nofollow
+/relaydot.svg
+  Cache-Control: public, max-age=86400

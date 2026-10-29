@@ -1,15 +1,14 @@
 import settingService from '../service/setting-service';
+import userService from '../service/user-service';
 import emailUtils from '../utils/email-utils';
 import {emailConst} from "../const/entity-const";
 
 const dbInit = {
 	async init(c) {
 
-		const secret = c.req.param('secret');
-
-		if (secret !== c.env.jwt_secret) {
-			return c.text('❌ JWT secret mismatch');
-		}
+        if (!c.env.bootstrap_password || c.env.bootstrap_password.length < 16) {
+            return c.text('Set a bootstrap password of at least 16 characters before setup.', 400);
+        }
 
 		await this.intDB(c);
 		await this.v1_1DB(c);
@@ -33,8 +32,13 @@ const dbInit = {
 		await this.v3_2DB(c);
 		await this.v3_3DB(c);
 		await this.v3_4DB(c);
-		await settingService.refresh(c);
-		return c.text('success');
+        await c.env.db.prepare("UPDATE setting SET title = ?, register = 1, notice_title = ?").bind('RelayDot', 'RelayDot').run();
+        await settingService.refresh(c);
+        const existing = await userService.selectByEmailIncludeDel(c, c.env.admin);
+        if (!existing) {
+            await userService.add(c, { email: c.env.admin, password: c.env.bootstrap_password });
+        }
+        return c.text('success');
 	},
 
 	async v3_4DB(c) {
@@ -289,7 +293,7 @@ const dbInit = {
 				type INTEGER NOT NULL DEFAULT 0,
 				update_time DATETIME DEFAULT CURRENT_TIMESTAMP
       )`,
-			`ALTER TABLE setting ADD COLUMN notice_title TEXT NOT NULL DEFAULT 'Cloud Mail';`,
+			`ALTER TABLE setting ADD COLUMN notice_title TEXT NOT NULL DEFAULT 'RelayDot';`,
 			`ALTER TABLE setting ADD COLUMN notice_content TEXT NOT NULL DEFAULT '';`,
 			`ALTER TABLE setting ADD COLUMN notice_type TEXT NOT NULL DEFAULT 'none';`,
 			`ALTER TABLE setting ADD COLUMN notice_duration INTEGER NOT NULL DEFAULT 0;`,
@@ -696,7 +700,7 @@ const dbInit = {
 			  INSERT INTO setting (
 				register, receive, add_email, many_email, title, auto_refresh, register_verify, add_email_verify
 			  )
-			  SELECT 0, 0, 0, 0, 'Cloud Mail', 0, 1, 1
+			  SELECT 0, 0, 0, 0, 'RelayDot', 0, 1, 1
 			  WHERE NOT EXISTS (SELECT 1 FROM setting)
 			`).run();
 		} catch (e) {

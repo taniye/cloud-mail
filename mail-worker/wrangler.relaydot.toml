@@ -1,0 +1,45 @@
+name = "relaydot"
+main = "src/index.js"
+account_id = "0250213eb1a8a6d4d608db64c2222f17"
+compatibility_date = "2025-06-04"
+workers_dev = false
+
+[observability]
+enabled = true
+
+[assets]
+binding = "assets"
+directory = "./dist"
+not_found_handling = "single-page-application"
+run_worker_first = true
+
+[triggers]
+crons = ["0 * * * *"]
+
+[vars]
+domain = ["relaydot.com"]
+admin = "admin@relaydot.com"
+private_mode = true
+project_link = false
+
+# jwt_secret, setup_secret, bootstrap_password and resend_api_key are Worker secrets.
+
+[[d1_databases]]
+binding = "db"
+database_name = "relaydot-db"
+database_id = "998fb324-32d0-494b-a407-cba672257116"
+
+[[kv_namespaces]]
+binding = "kv"
+id = "028c351c99d741ee9a6e34ddff840e9c"
+
+[[r2_buckets]]
+binding = "r2"
+bucket_name = "relaydot-files"
+
+[ai]
+binding = "ai"
+
+[[routes]]
+pattern = "webmail.relaydot.com"
+custom_domain = true

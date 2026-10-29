@@ -10,6 +10,7 @@ import {t} from '../i18n/i18n'
 import verifyRecordService from './verify-record-service';
 import userContext from '../security/user-context';
 import domainUtils from '../utils/domain-uitls';
+import { isPrivateDeployment } from '../utils/private-mode.mjs';
 
 const settingService = {
 
@@ -60,6 +61,19 @@ const settingService = {
 		}
 
 		setting.projectLink = projectLink;
+        setting.title = 'RelayDot';
+        setting.noticeTitle = 'RelayDot';
+        if (c.env.resend_api_key) {
+            for (const domain of domainList) {
+                setting.resendTokens[domain.slice(1)] = c.env.resend_api_key;
+            }
+        }
+        if (isPrivateDeployment(c.env)) {
+            setting.register = 1;
+            setting.linuxdoSwitch = 1;
+            setting.githubSwitch = 1;
+            setting.googleSwitch = 1;
+        }
 
 		setting.emailPrefixFilter = setting.emailPrefixFilter.split(",").filter(Boolean);
 

@@ -22,12 +22,13 @@ export default defineConfig(({mode}) => {
                     name: env.VITE_PWA_NAME,
                     short_name: env.VITE_PWA_NAME,
                     background_color: '#FFFFFF',
-                    theme_color: '#FFFFFF',
+                    theme_color: '#4263eb',
                     icons: [
                         {
-                            src: 'mail-pwa.png',
-                            sizes: '192x192',
-                            type: 'image/png',
+                            src: 'relaydot.svg',
+                            sizes: 'any',
+                            type: 'image/svg+xml',
+                            purpose: 'any',
                         }
                     ],
                 },

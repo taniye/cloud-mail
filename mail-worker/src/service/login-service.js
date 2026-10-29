@@ -19,10 +19,14 @@ import dayjs from 'dayjs';
 import { toUtc } from '../utils/date-uitil';
 import { t } from '../i18n/i18n.js';
 import verifyRecordService from './verify-record-service';
+import { isPrivateDeployment } from '../utils/private-mode.mjs';
 
 const loginService = {
 
 	async register(c, params, oauth = false) {
+		if (isPrivateDeployment(c.env)) {
+			throw new BizError(t('regDisabled'), 403);
+		}
 
 		const { email, password, token, code } = params;
 

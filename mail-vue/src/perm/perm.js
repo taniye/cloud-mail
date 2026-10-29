@@ -89,34 +89,4 @@ const routers = {
             menu: true
         }
     }],
-    'reg-key:query': [{
-        path: '/invite-code',
-        name: 'reg-key',
-        component: () => import('@/views/reg-key/index.vue'),
-        meta: {
-            title: 'inviteCode',
-            name: 'reg-key',
-            menu: true
-        }
-    }],
-    'all-email:query': [{
-        path: '/all-mail',
-        name: 'all-email',
-        component: () => import('@/views/all-email/index.vue'),
-        meta: {
-            title: 'allMail',
-            name: 'all-email',
-            menu: true
-        }
-    }],
-    'analysis:query': [{
-        path: '/dashboard',
-        name: 'analysis',
-        component: () => import('@/views/analysis/index.vue'),
-        meta: {
-            title: 'analytics',
-            name: 'analysis',
-            menu: true
-        }
-    }]
 }
